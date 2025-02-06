@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ongniud/arena-map/alloc"
+	"github.com/ongniud/arena/alloc"
 )
 
 func TestNew(t *testing.T) {
