@@ -5,32 +5,32 @@ import (
 	"unsafe"
 )
 
-type Slab struct {
+type slab struct {
 	memory []byte
 	chunks []chunk
 }
 
-func NewSlab(alloc *allocator, slabIdx int, slabSize, chunkSize int) (Slab, error) {
+func NewSlab(alloc *allocator, slabIdx int, slabSize, chunkSize int) (slab, error) {
 	mem := alloc.malloc(slabSize)
 	if mem == nil {
-		return Slab{}, errors.New("malloc fail")
+		return slab{}, errors.New("malloc fail")
 	}
 	chunks := make([]chunk, slabSize/chunkSize)
 	for i := range chunks {
 		chunks[i].loc.slabId = slabIdx
 		chunks[i].loc.chunkId = i
 	}
-	return Slab{
+	return slab{
 		memory: mem,
 		chunks: chunks,
 	}, nil
 }
 
-func (s *Slab) Addr() uintptr {
+func (s *slab) Addr() uintptr {
 	return uintptr(unsafe.Pointer(&s.memory[0]))
 }
 
-func (s *Slab) Chunk(i int) *chunk {
+func (s *slab) Chunk(i int) *chunk {
 	if s == nil || i >= len(s.chunks) {
 		return nil
 	}

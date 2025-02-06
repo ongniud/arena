@@ -9,7 +9,7 @@ import (
 
 type class struct {
 	alloc     *allocator
-	slabs     []Slab
+	slabs     []slab
 	slabSize  int
 	chunkSize int
 
@@ -31,7 +31,7 @@ func newClass(alloc *allocator, ckSize int) class {
 	}
 }
 
-func (sc *class) Slab(i int) *Slab {
+func (sc *class) Slab(i int) *slab {
 	if sc == nil || i >= len(sc.slabs) {
 		return nil
 	}
